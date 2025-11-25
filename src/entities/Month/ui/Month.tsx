@@ -21,8 +21,8 @@ export const Month: FC<MonthProps> = ({ year, month, range, onDayClick }) => {
         {format(currentMonthDate, 'MMMM yyyy')}
       </h2>
       <div className="grid grid-cols-7 gap-y-1 text-center">
-        {weekdays.map((day) => (
-          <div key={day} className="w-10 h-10 flex items-center justify-center text-sm text-gray-500">
+        {weekdays.map((day, index) => (
+          <div key={`${day}-${index}`} className="w-10 h-10 flex items-center justify-center text-sm text-gray-500">
             {day}
           </div>
         ))}
