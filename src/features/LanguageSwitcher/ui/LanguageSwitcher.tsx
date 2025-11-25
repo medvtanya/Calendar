@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from 'next-intl/client';
+import { usePathname, useRouter } from 'next-intl/link';
 import { FC, useTransition } from 'react';
 
 export const LanguageSwitcher: FC = () => {
