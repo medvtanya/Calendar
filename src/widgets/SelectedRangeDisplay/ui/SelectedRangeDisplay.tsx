@@ -19,17 +19,17 @@ export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({ range, onR
   const formattedEnd = range.end ? format(range.end, 'd MMM yyyy') : '...';
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 p-4 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] dark:shadow-[0_-2px_10px_rgba(255,255,255,0.1)] flex justify-between items-center">
+    <div className="footer-background fixed bottom-0 left-0 right-0 p-4 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] dark:shadow-[0_-2px_10px_rgba(255,255,255,0.1)] flex justify-between items-center">
       <div className="text-left">
-        <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <p className="text-lg font-semibold footer-text-primary">
           {formattedStart} - {formattedEnd}
         </p>
-        <p className="text-sm text-gray-500 dark:text-gray-400">Selected date range</p>
+        <p className="text-sm footer-text-secondary">Selected date range</p>
       </div>
       <button
         type="button"
         onClick={onReset}
-        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors"
+        className="px-4 py-2 rounded-md transition-colors footer-button-text footer-button-background"
       >
         Reset
       </button>

@@ -2,32 +2,25 @@ import { useState } from 'react';
 import { isAfter } from 'date-fns';
 
 export const useDateRangePicker = () => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [range, setRange] = useState<{ start: Date | null; end: Date | null }>({
+    start: null,
+    end: null,
+  });
 
   const handleDayClick = (date: Date) => {
-    if (startDate && !endDate) {
-      if (isAfter(date, startDate)) {
-        setEndDate(date);
-      } else {
-        setStartDate(date);
-      }
-    } else if (startDate && endDate) {
-      setStartDate(date);
-      setEndDate(null);
+    if (!range.start || (range.start && range.end)) {
+      setRange({ start: date, end: null });
     } else {
-      setStartDate(date);
+      if (isAfter(date, range.start)) {
+        setRange({ ...range, end: date });
+      } else {
+        setRange({ start: date, end: range.start });
+      }
     }
   };
 
   const resetDates = () => {
-    setStartDate(null);
-    setEndDate(null);
-  };
-
-  const range = {
-    start: startDate,
-    end: endDate,
+    setRange({ start: null, end: null });
   };
 
   return {
