@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { Day } from '@/entities/Day';
-import { generateMonthMatrix, getWeekdays } from '@/shared/lib/date';
-import { isSameMonth, format } from 'date-fns';
+import { formatDate, generateMonthMatrix, getWeekdays } from '@/shared/lib/date';
+import { isSameMonth } from 'date-fns';
+import { useLocale } from 'next-intl';
 
 type MonthProps = {
   year: number;
@@ -11,18 +12,19 @@ type MonthProps = {
 };
 
 export const Month: FC<MonthProps> = ({ year, month, range, onDayClick }) => {
+  const locale = useLocale();
   const monthMatrix = generateMonthMatrix(year, month);
-  const weekdays = getWeekdays();
+  const weekdays = getWeekdays(locale);
   const currentMonthDate = new Date(year, month);
 
   return (
     <section className="flex flex-col items-center p-4">
       <h2 className="text-lg font-semibold mb-4">
-        {format(currentMonthDate, 'MMMM yyyy')}
+        {formatDate(currentMonthDate, 'LLLL yyyy', locale)}
       </h2>
       <div className="grid grid-cols-7 gap-y-1 text-center">
-        {weekdays.map((day) => (
-          <div key={day} className="w-10 h-10 flex items-center justify-center text-sm text-gray-500">
+        {weekdays.map((day, index) => (
+          <div key={index} className="w-10 h-10 flex items-center justify-center text-sm text-gray-500">
             {day}
           </div>
         ))}

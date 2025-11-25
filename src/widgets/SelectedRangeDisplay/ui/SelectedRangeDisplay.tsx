@@ -1,6 +1,7 @@
 'use client';
 import { FC } from 'react';
 import { format } from 'date-fns';
+import { useTranslations } from 'next-intl';
 
 type SelectedRangeDisplayProps = {
   range: {
@@ -11,6 +12,8 @@ type SelectedRangeDisplayProps = {
 };
 
 export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({ range, onReset }) => {
+  const t = useTranslations('SelectedRangeDisplay');
+
   if (!range.start) {
     return null;
   }
@@ -24,14 +27,14 @@ export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({ range, onR
         <p className="text-lg font-semibold">
           {formattedStart} - {formattedEnd}
         </p>
-        <p className="text-sm text-gray-500">Selected date range</p>
+        <p className="text-sm text-gray-500">{t('title')}</p>
       </div>
       <button
         type="button"
         onClick={onReset}
         className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
       >
-        Reset
+        {t('reset')}
       </button>
     </div>
   );

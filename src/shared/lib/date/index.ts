@@ -7,6 +7,9 @@ import {
   startOfMonth,
   startOfWeek,
 } from 'date-fns';
+import { enUS, ru } from 'date-fns/locale';
+
+const locales: { [key: string]: Locale } = { en: enUS, ru };
 
 /**
  * Generates a matrix of dates for a given month.
@@ -44,8 +47,10 @@ export const generateMonthMatrix = (
  * @param formatStr - The format string.
  * @returns The formatted date string.
  */
-export const formatDate = (date: Date, formatStr: string): string => {
-  return format(date, formatStr);
+export const formatDate = (date: Date, formatStr: string, locale: string): string => {
+  return format(date, formatStr, {
+    locale: locales[locale],
+  });
 };
 
 /**
@@ -55,13 +60,18 @@ export const formatDate = (date: Date, formatStr: string): string => {
  * @returns An array of weekday name strings.
  */
 export const getWeekdays = (
+  locale: string,
   weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6 = 1,
   formatStr: string = 'EEEEE' // e.g., 'M' for Monday
 ): string[] => {
   const week: string[] = [];
   const firstDay = startOfWeek(new Date(), { weekStartsOn });
   for (let i = 0; i < 7; i++) {
-    week.push(format(addDays(firstDay, i), formatStr));
+    week.push(
+      format(addDays(firstDay, i), formatStr, {
+        locale: locales[locale],
+      })
+    );
   }
   return week;
 };

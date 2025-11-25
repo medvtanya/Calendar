@@ -1,0 +1,17 @@
+{
+  "SelectedRangeDisplay": {
+    "title": "Selected date range",
+    "reset": "Reset"
+  },
+  "Month": {
+    "weekdays": {
+      "su": "S",
+      "mo": "M",
+      "tu": "T",
+      "we": "W",
+      "th": "T",
+      "fr": "F",
+      "sa": "S"
+    }
+  }
+}
