@@ -5,6 +5,7 @@ import { useDateRangePicker } from '@/features/DateRangePicker';
 import { useMonths } from '../lib/useMonths';
 import { useIntersectionObserver } from '@/shared/hooks/useIntersectionObserver';
 import { SelectedRangeDisplay } from '@/widgets/SelectedRangeDisplay';
+import { ThemeSwitcher } from '@/features/ThemeSwitcher/ui/ThemeSwitcher';
 
 export const Calendar: FC = () => {
   const { range, handleDayClick, resetDates } = useDateRangePicker();
@@ -40,6 +41,9 @@ export const Calendar: FC = () => {
 
   return (
     <>
+      <div className="fixed top-4 right-4 z-10">
+        <ThemeSwitcher />
+      </div>
       <div ref={scrollContainerRef} className="h-screen overflow-y-auto snap-y snap-mandatory">
         <div ref={topObserverRef} className="h-1" />
         {months.map(({ year, month }) => {
