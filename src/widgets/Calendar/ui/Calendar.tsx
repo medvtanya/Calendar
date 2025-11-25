@@ -7,7 +7,7 @@ import { useIntersectionObserver } from '@/shared/hooks/useIntersectionObserver'
 import { SelectedRangeDisplay } from '@/widgets/SelectedRangeDisplay';
 
 export const Calendar: FC = () => {
-  const { range, handleDayClick } = useDateRangePicker();
+  const { range, handleDayClick, resetDates } = useDateRangePicker();
   const { months, loadMoreNext, loadMorePrev } = useMonths();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const initialMonthRef = useRef<HTMLDivElement>(null);
@@ -58,7 +58,7 @@ export const Calendar: FC = () => {
         })}
         <div ref={bottomObserverRef} className="h-1" />
       </div>
-      <SelectedRangeDisplay range={range} />
+      <SelectedRangeDisplay range={range} onReset={resetDates} />
     </>
   );
 };

@@ -7,9 +7,10 @@ type SelectedRangeDisplayProps = {
     start: Date | null;
     end: Date | null;
   };
+  onReset: () => void;
 };
 
-export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({ range }) => {
+export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({ range, onReset }) => {
   if (!range.start) {
     return null;
   }
@@ -18,13 +19,20 @@ export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({ range }) =
   const formattedEnd = range.end ? format(range.end, 'd MMM yyyy') : '...';
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] flex justify-center items-center">
-      <div className="text-center">
+    <div className="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] flex justify-between items-center">
+      <div className="text-left">
         <p className="text-lg font-semibold">
           {formattedStart} - {formattedEnd}
         </p>
         <p className="text-sm text-gray-500">Selected date range</p>
       </div>
+      <button
+        type="button"
+        onClick={onReset}
+        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
+      >
+        Reset
+      </button>
     </div>
   );
 };

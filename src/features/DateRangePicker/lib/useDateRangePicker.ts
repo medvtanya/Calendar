@@ -20,6 +20,11 @@ export const useDateRangePicker = () => {
     }
   };
 
+  const resetDates = () => {
+    setStartDate(null);
+    setEndDate(null);
+  };
+
   const range = {
     start: startDate,
     end: endDate,
@@ -28,5 +33,6 @@ export const useDateRangePicker = () => {
   return {
     range,
     handleDayClick,
+    resetDates,
   };
 };
