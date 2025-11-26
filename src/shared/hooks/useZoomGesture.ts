@@ -3,19 +3,19 @@
 import { useGesture } from '@use-gesture/react';
 import { RefObject } from 'react';
 
-type ZoomGestureOptions<T extends HTMLElement> = {
-  target: RefObject<T>;
+type ZoomGestureOptions = {
+  target: RefObject<HTMLElement>;
   onZoomIn: () => void;
   onZoomOut: () => void;
   zoomThreshold?: number;
 };
 
-export const useZoomGesture = <T extends HTMLElement>({
+export const useZoomGesture = ({
   target,
   onZoomIn,
   onZoomOut,
   zoomThreshold = 0.5,
-}: ZoomGestureOptions<T>) => {
+}: ZoomGestureOptions) => {
   useGesture(
     {
       onPinch: (state) => {
