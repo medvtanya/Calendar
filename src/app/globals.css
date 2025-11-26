@@ -76,3 +76,60 @@ html.dark .footer-button-background {
 html.dark .footer-button-background:hover {
   background-color: #3f3f46; /* dark:hover:bg-zinc-700 */
 }
+
+.custom-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem;
+  margin: 0;
+  width: auto;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  line-height: inherit;
+  outline: none;
+  text-align: center;
+  max-height: 50vh; /* Limit height */
+  overflow-y: auto; /* Enable scroll if needed */
+}
+
+/* Custom Select Component Styles */
+.custom-select-button {
+  color: #111827; /* text-gray-900 */
+}
+html.dark .custom-select-button {
+  color: #ffffff; /* dark:text-white */
+}
+
+.custom-select-dropdown {
+  background-color: #ffffff; /* bg-white */
+  border-color: #e5e7eb; /* border-gray-200 */
+}
+html.dark .custom-select-dropdown {
+  background-color: #000000; /* dark:bg-black */
+  border-color: #3f3f46; /* dark:border-zinc-800 */
+}
+
+.custom-select-option {
+  color: #111827; /* text-gray-900 */
+}
+html.dark .custom-select-option {
+  color: #ffffff; /* dark:text-white */
+}
+
+.custom-select-option:hover {
+  background-color: #f3f4f6; /* hover:bg-gray-100 */
+}
+html.dark .custom-select-option:hover {
+  background-color: #27272a; /* dark:hover:bg-zinc-800 */
+}
+
+.header-background {
+  background-color: #ffffff; /* bg-white */
+}
+html.dark .header-background {
+  background-color: #000000; /* dark:bg-black */
+}

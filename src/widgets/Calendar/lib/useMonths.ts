@@ -1,51 +1,39 @@
 import { useState, useCallback } from 'react';
 import { addMonths, subMonths } from 'date-fns';
 
-const MONTHS_BUFFER = 3; // Load 3 months before and 3 after the current date
-
-type Month = {
-  year: number;
-  month: number;
+const generateMonths = (centerDate: Date, countBefore: number, countAfter: number) => {
+  const months = [];
+  for (let i = -countBefore; i <= countAfter; i++) {
+    const date = addMonths(centerDate, i);
+    months.push({ year: date.getFullYear(), month: date.getMonth() });
+  }
+  return months;
 };
 
 export const useMonths = () => {
-  const [months, setMonths] = useState<Month[]>(() => {
-    const today = new Date();
-    const initialMonths: Month[] = [];
-    // Start with a buffer around the current month
-    for (let i = -MONTHS_BUFFER; i <= MONTHS_BUFFER; i++) {
-      const date = addMonths(today, i);
-      initialMonths.push({ year: date.getFullYear(), month: date.getMonth() });
-    }
-    return initialMonths;
-  });
+  const [months, setMonths] = useState(() => generateMonths(new Date(), 6, 6));
 
   const loadMoreNext = useCallback(() => {
-    setMonths((prevMonths) => {
-      const lastMonth = prevMonths[prevMonths.length - 1];
-      const lastMonthDate = new Date(lastMonth.year, lastMonth.month);
-      const newMonths: Month[] = [];
-      for (let i = 1; i <= MONTHS_BUFFER; i++) {
-        const date = addMonths(lastMonthDate, i);
-        newMonths.push({ year: date.getFullYear(), month: date.getMonth() });
-      }
-      return [...prevMonths, ...newMonths];
+    setMonths((prev) => {
+      if (prev.length === 0) return prev;
+      const lastMonth = prev[prev.length - 1];
+      const nextDate = addMonths(new Date(lastMonth.year, lastMonth.month), 1);
+      return [...prev, { year: nextDate.getFullYear(), month: nextDate.getMonth() }];
     });
   }, []);
 
   const loadMorePrev = useCallback(() => {
-    setMonths((prevMonths) => {
-      const firstMonth = prevMonths[0];
-      const firstMonthDate = new Date(firstMonth.year, firstMonth.month);
-      const newMonths: Month[] = [];
-      for (let i = 1; i <= MONTHS_BUFFER; i++) {
-        const date = subMonths(firstMonthDate, i);
-        newMonths.unshift({ year: date.getFullYear(), month: date.getMonth() });
-      }
-      // Keep the DOM from getting too large by trimming the other end
-      return [...newMonths, ...prevMonths.slice(0, prevMonths.length - MONTHS_BUFFER)];
+    setMonths((prev) => {
+      if (prev.length === 0) return prev;
+      const firstMonth = prev[0];
+      const prevDate = subMonths(new Date(firstMonth.year, firstMonth.month), 1);
+      return [{ year: prevDate.getFullYear(), month: prevDate.getMonth() }, ...prev];
     });
   }, []);
 
-  return { months, loadMoreNext, loadMorePrev };
+  const jumpToMonth = useCallback((date: Date) => {
+    setMonths(generateMonths(date, 6, 6));
+  }, []);
+
+  return { months, loadMoreNext, loadMorePrev, jumpToMonth };
 };
