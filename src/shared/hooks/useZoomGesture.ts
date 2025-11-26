@@ -3,25 +3,25 @@
 import { useGesture } from '@use-gesture/react';
 import { RefObject } from 'react';
 
-type ZoomGestureOptions = {
-  target: RefObject<HTMLElement>;
+type ZoomGestureOptions<T extends HTMLElement> = {
+  target: RefObject<T>;
   onZoomIn: () => void;
   onZoomOut: () => void;
   zoomThreshold?: number;
 };
 
-export const useZoomGesture = ({
+export const useZoomGesture = <T extends HTMLElement>({
   target,
   onZoomIn,
   onZoomOut,
   zoomThreshold = 0.5,
-}: ZoomGestureOptions) => {
+}: ZoomGestureOptions<T>) => {
   useGesture(
     {
       onPinch: (state) => {
         const {
-          offset, // [distance, angle] - Replaces 'da' / 'movement'
-          velocity, // [velocity] - Replaces 'vdva' / 'velocities'
+          offset, // [distance, angle]
+          velocity, // [velocity]
           memo,
           first,
           last,
