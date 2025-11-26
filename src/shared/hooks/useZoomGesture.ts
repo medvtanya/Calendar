@@ -3,25 +3,28 @@
 import { useGesture } from '@use-gesture/react';
 import { RefObject } from 'react';
 
-type ZoomGestureOptions = {
-  target: RefObject<HTMLElement>;
+// The hook's options are generic over T, which must be a type of HTMLElement.
+// The target's ref can point to T OR null, which is crucial.
+type ZoomGestureOptions<T extends HTMLElement> = {
+  target: RefObject<T | null>;
   onZoomIn: () => void;
   onZoomOut: () => void;
   zoomThreshold?: number;
 };
 
-export const useZoomGesture = ({
+// The hook itself is generic.
+export const useZoomGesture = <T extends HTMLElement>({
   target,
   onZoomIn,
   onZoomOut,
   zoomThreshold = 0.5,
-}: ZoomGestureOptions) => {
+}: ZoomGestureOptions<T>) => {
   useGesture(
     {
       onPinch: (state) => {
         const {
-          offset, // [distance, angle] - Replaces 'da' / 'movement'
-          velocity, // [velocity] - Replaces 'vdva' / 'velocities'
+          offset, // [distance, angle]
+          velocity, // [velocity]
           memo,
           first,
           last,
