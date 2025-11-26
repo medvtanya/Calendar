@@ -40,7 +40,7 @@ html.dark .day-in-next-month {
   background-color: #ffffff; /* bg-white */
 }
 html.dark .footer-background {
-  background-color: #1f2937; /* dark:bg-gray-800 */
+  background-color: #0a0a0a; /* page background in dark mode */
 }
 
 .footer-text-primary {
@@ -71,8 +71,8 @@ html.dark .footer-button-text {
   background-color: #d1d5db; /* hover:bg-gray-300 */
 }
 html.dark .footer-button-background {
-  background-color: #374151; /* dark:bg-gray-700 */
+  background-color: #27272a; /* dark:bg-zinc-800 */
 }
 html.dark .footer-button-background:hover {
-  background-color: #4b5563; /* dark:hover:bg-gray-600 */
+  background-color: #3f3f46; /* dark:hover:bg-zinc-700 */
 }

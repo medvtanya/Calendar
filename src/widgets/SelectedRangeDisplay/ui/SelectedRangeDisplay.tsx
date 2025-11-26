@@ -19,7 +19,7 @@ export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({ range, onR
   const formattedEnd = range.end ? format(range.end, 'd MMM yyyy') : '...';
 
   return (
-    <div className="footer-background fixed bottom-0 left-0 right-0 p-4 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] dark:shadow-[0_-2px_10px_rgba(255,255,255,0.1)] flex justify-between items-center">
+    <div className="footer-background fixed bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-zinc-800 flex justify-between items-center">
       <div className="text-left">
         <p className="text-lg font-semibold footer-text-primary">
           {formattedStart} - {formattedEnd}
