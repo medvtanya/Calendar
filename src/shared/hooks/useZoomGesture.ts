@@ -3,13 +3,16 @@
 import { useGesture } from '@use-gesture/react';
 import { RefObject } from 'react';
 
+// The hook's options are generic over T, which must be a type of HTMLElement.
+// The target's ref can point to T OR null, which is crucial.
 type ZoomGestureOptions<T extends HTMLElement> = {
-  target: RefObject<T>;
+  target: RefObject<T | null>;
   onZoomIn: () => void;
   onZoomOut: () => void;
   zoomThreshold?: number;
 };
 
+// The hook itself is generic.
 export const useZoomGesture = <T extends HTMLElement>({
   target,
   onZoomIn,
