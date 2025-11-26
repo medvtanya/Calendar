@@ -20,26 +20,25 @@ export const useZoomGesture = <T extends HTMLElement>({
     {
       onPinch: (state) => {
         const {
-          movement, // Replaces 'da'
-          velocities, // Replaces 'vdva'
+          offset, // [distance, angle] - Replaces 'da' / 'movement'
+          velocity, // [velocity] - Replaces 'vdva' / 'velocities'
           memo,
           first,
           last,
         } = state;
 
-        if (!movement || !velocities) {
+        if (!offset || !velocity) {
           return memo;
         }
 
-        const [distance] = movement;
-        const [velocity] = velocities;
+        const [distance] = offset;
+        const [pinchVelocity] = velocity;
 
         if (first) {
           return distance;
         }
         if (memo === undefined) return distance;
 
-        const pinchVelocity = velocity;
         const isZoomingIn = distance > memo && pinchVelocity > zoomThreshold;
         const isZoomingOut = distance < memo && pinchVelocity < -zoomThreshold;
 
