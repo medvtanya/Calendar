@@ -8,6 +8,13 @@ import {
   startOfWeek,
 } from 'date-fns';
 
+export type DayInfo = {
+  date: Date;
+  isCurrentMonth: boolean;
+  isPreviousMonth: boolean;
+  isNextMonth: boolean;
+};
+
 /**
  * Generates a matrix of dates for a given month.
  * Includes padding days from the previous and next months to fill the grid.
@@ -64,4 +71,37 @@ export const getWeekdays = (
     week.push(format(addDays(firstDay, i), formatStr));
   }
   return week;
+};
+
+export const getMonthDays = (
+  year: number,
+  month: number
+): {
+  days: DayInfo[];
+  monthName: string;
+  year: number;
+} => {
+  const date = new Date(year, month);
+  const monthStart = startOfMonth(date);
+  const monthEnd = endOfMonth(date);
+  const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
+  const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
+
+  const days = eachDayOfInterval({ start: startDate, end: endDate }).map(
+    (date) => {
+      const dayMonth = date.getMonth();
+      return {
+        date,
+        isCurrentMonth: dayMonth === month,
+        isPreviousMonth: dayMonth < month,
+        isNextMonth: dayMonth > month,
+      };
+    }
+  );
+
+  return {
+    days,
+    monthName: format(date, 'MMMM'),
+    year: date.getFullYear(),
+  };
 };

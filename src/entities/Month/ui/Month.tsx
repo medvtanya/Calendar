@@ -1,62 +1,63 @@
+'use client';
+
 import { FC } from 'react';
+import { format } from 'date-fns';
 import { Day } from '@/entities/Day';
-import { generateMonthMatrix, getWeekdays } from '@/shared/lib/date';
-import { isSameMonth, format } from 'date-fns';
+import { getMonthDays, DayInfo } from '@/shared/lib/date';
+import { isSameDay, isWithinInterval } from 'date-fns';
 
 type MonthProps = {
   year: number;
-  month: number; // 0-indexed
-  range: { start: Date | null; end: Date | null };
+  month: number;
+  range: {
+    start: Date | null;
+    end: Date | null;
+  };
   onDayClick: (date: Date) => void;
 };
 
 export const Month: FC<MonthProps> = ({ year, month, range, onDayClick }) => {
-  const monthMatrix = generateMonthMatrix(year, month);
-  const weekdays = getWeekdays();
-  const currentMonthDate = new Date(year, month);
+  const { days, monthName, year: currentYear } = getMonthDays(year, month);
+  const { start: startDate, end: endDate } = range;
+
+  const handleDayClick = (date: Date) => {
+    onDayClick(date);
+  };
+
+  const weekdays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
   return (
-    <section className="flex flex-col items-center p-4">
-      <h2 className="text-lg font-semibold mb-4">
-        {format(currentMonthDate, 'MMMM yyyy')}
+    <div className="p-4">
+      <h2 className="text-lg font-semibold text-center mb-4">
+        {monthName} {currentYear}
       </h2>
-      <div className="grid grid-cols-7 gap-y-1 text-center">
-        {weekdays.map((day) => (
-          <div key={day} className="w-10 h-10 flex items-center justify-center text-sm text-gray-500">
-            {day}
-          </div>
+      <div className="grid grid-cols-7 gap-x-2 text-center text-sm text-gray-500 mb-2">
+        {weekdays.map((day, index) => (
+          <div key={index}>{day}</div>
         ))}
-        {monthMatrix.flat().map((date, i) => {
-          const isCurrentMonth = isSameMonth(date, currentMonthDate);
-          const isSelected =
-            (range.start && date.getTime() === range.start.getTime()) ||
-            (range.end && date.getTime() === range.end.getTime()) ||
-            false;
-          
-          const isRangeStart = (range.start && date.getTime() === range.start.getTime()) || false;
-          const isRangeEnd = (range.end && date.getTime() === range.end.getTime()) || false;
-
-          const isInRange =
-            (range.start &&
-              range.end &&
-              date.getTime() > range.start.getTime() &&
-              date.getTime() < range.end.getTime()) ||
-            false;
-
-          return (
-            <Day
-              key={i}
-              date={date}
-              isCurrentMonth={isCurrentMonth}
-              isSelected={isSelected}
-              isInRange={isInRange}
-              isRangeStart={isRangeStart}
-              isRangeEnd={isRangeEnd}
-              onClick={onDayClick}
-            />
-          );
-        })}
       </div>
-    </section>
+      <div className="grid grid-cols-7 gap-y-1">
+        {days.map((day: DayInfo, dayIdx) => (
+          <Day
+            key={dayIdx}
+            date={day.date}
+            isCurrentMonth={day.isCurrentMonth}
+            isPreviousMonth={day.isPreviousMonth}
+            isNextMonth={day.isNextMonth}
+            isSelected={
+              (isSameDay(day.date, startDate!) && !!startDate) ||
+              (isSameDay(day.date, endDate!) && !!endDate)
+            }
+            isInRange={!!startDate && !!endDate && isWithinInterval(day.date, {
+              start: startDate,
+              end: endDate,
+            })}
+            isRangeStart={!!startDate && isSameDay(day.date, startDate)}
+            isRangeEnd={!!endDate && isSameDay(day.date, endDate)}
+            onClick={handleDayClick}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
