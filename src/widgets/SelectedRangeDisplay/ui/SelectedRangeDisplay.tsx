@@ -1,6 +1,7 @@
 'use client';
 import { FC } from 'react';
 import { format } from 'date-fns';
+import { ZoomIn } from 'lucide-react';
 
 type SelectedRangeDisplayProps = {
   range: {
@@ -8,9 +9,16 @@ type SelectedRangeDisplayProps = {
     end: Date | null;
   };
   onReset: () => void;
+  onZoom: () => void;
+  isMobile: boolean;
 };
 
-export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({ range, onReset }) => {
+export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({
+  range,
+  onReset,
+  onZoom,
+  isMobile,
+}) => {
   if (!range.start) {
     return null;
   }
@@ -26,13 +34,25 @@ export const SelectedRangeDisplay: FC<SelectedRangeDisplayProps> = ({ range, onR
         </p>
         <p className="text-sm footer-text-secondary">Selected date range</p>
       </div>
-      <button
-        type="button"
-        onClick={onReset}
-        className="px-4 py-2 rounded-md transition-colors footer-button-text footer-button-background"
-      >
-        Reset
-      </button>
+      <div className="flex items-center space-x-2">
+        {range.start && range.end && !isMobile && (
+          <button
+            type="button"
+            onClick={onZoom}
+            className="p-2 rounded-full transition-colors footer-button-background footer-button-text"
+            aria-label="Zoom to week"
+          >
+            <ZoomIn size={20} />
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={onReset}
+          className="px-4 py-2 rounded-md transition-colors footer-button-text footer-button-background"
+        >
+          Reset
+        </button>
+      </div>
     </div>
   );
 };
